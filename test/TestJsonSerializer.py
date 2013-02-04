@@ -72,7 +72,7 @@ class TestLoadFromJson(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_load_from_json(self):
+    def test_load_and_dump(self):
         a = TestLoadFromJson.A()
         load_from_json(a, '{"a":5, "b":true, "c":{"ba":6}, "d":[0,1,2,3]}')
         self.assertEqual(a.a, 5)
@@ -95,6 +95,15 @@ class TestLoadFromJson(unittest.TestCase):
         dump_str = dump_to_json(d)
         self.assertEqual(dump_str, '{"a": true, "c": {"cc": "test str", "cb": {"ba": 50}, "ca": 1}, "b": [{"ba": 10}, {"ba": 20}]}')
 
+    class E:
+        def __init__(self):
+            self.a = []
+
+    def test_load_error(self):
+        e = TestLoadFromJson.E()
+        #self.assertRaisesRegexp(ValueError, "must use FixedTypeList to store json array", load_from_json, e, '{"a":[1,2]}')
+
+        self.assertRaisesRegexp(ValueError, ".*has no attribute\[b\]", load_from_json, e, '{"b":[1,2]}')
 
 if __name__ == '__main__':
     unittest.main()
