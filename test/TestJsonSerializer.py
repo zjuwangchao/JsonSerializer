@@ -101,8 +101,7 @@ class TestLoadFromJson(unittest.TestCase):
 
     def test_load_error(self):
         e = TestLoadFromJson.E()
-        #self.assertRaisesRegexp(ValueError, "must use FixedTypeList to store json array", load_from_json, e, '{"a":[1,2]}')
-
+        self.assertRaisesRegexp(ValueError, "must use FixedTypeList to store json array", load_from_json, e, '{"a":[1,2]}')
         self.assertRaisesRegexp(ValueError, ".*has no attribute\[b\]", load_from_json, e, '{"b":[1,2]}')
 
 if __name__ == '__main__':
