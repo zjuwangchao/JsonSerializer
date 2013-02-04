@@ -76,21 +76,21 @@ def _load_from_json_array(array_obj, json_array):
 
 def _dump_to_json_object(obj):
     if isinstance(obj, list):
-        return dump_json_array(obj)
+        return _dump_json_array(obj)
     elif _is_native_json_type(obj):
         return obj
     else:
-        return dump_custom_object(obj)
+        return _dump_custom_object(obj)
 
 
-def dump_json_array(obj):
+def _dump_json_array(obj):
     sub_obj_list = []
     for s in obj:
         sub_obj_list.append(_dump_to_json_object(s))
     return sub_obj_list
 
 
-def dump_custom_object(obj):
+def _dump_custom_object(obj):
     attr_list = [attr for attr in dir(obj)
                  if not attr.startswith('__') and not callable(getattr(obj, attr))]
     json_object = {}
